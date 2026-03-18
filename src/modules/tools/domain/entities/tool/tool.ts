@@ -1,4 +1,4 @@
-import { createToolParams } from "../types"
+import { CreateToolParams } from "../../types"
 
 export class Tool {
     constructor (
@@ -18,12 +18,12 @@ export class Tool {
         }
     }
 
-    static create(params: createToolParams): Tool {
+    static create(params: CreateToolParams): Tool {
         return new Tool(
             params.id,
             params.name,
-            params.description ?? null,
-            true,
+            params.description || null,
+            params.isActive || true,
             new Date(),
             new Date(),
             null
