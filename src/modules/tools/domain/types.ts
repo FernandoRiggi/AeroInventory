@@ -19,4 +19,6 @@ export type CreateToolItemParams = {
     serialNumber: string
     isActive?: boolean
     status?: ToolItemStatus
+    borrowedBy?: string
+    borrowedAt?: Date
 }

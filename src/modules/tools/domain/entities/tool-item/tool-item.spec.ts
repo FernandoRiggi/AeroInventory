@@ -47,4 +47,52 @@ describe('ToolItem', () => {
         }),
     ).toThrow('serialNumber is required')
     })
+
+    it(`should not allow borrowedBy when status is not ${ToolItemStatus.BORROWED}`, () => {
+        expect(() =>
+        ToolItem.create({
+            id: "001-001-001",
+            toolId: "001",
+            serialNumber: "123456-7890",
+            status: ToolItemStatus.AVAILABLE,
+            borrowedBy: '12345'
+        }),
+    ).toThrow(`borrowedBy can only be set when status is ${ToolItemStatus.BORROWED}`)
+    })
+
+    it(`should not allow borrowedAt when status is not ${ToolItemStatus.BORROWED}`, () => {
+        expect(() =>
+        ToolItem.create({
+            id: "001-001-001",
+            toolId: "001",
+            serialNumber: "123456-7890",
+            status: ToolItemStatus.AVAILABLE,
+            borrowedAt: new Date()
+        }),
+    ).toThrow(`borrowedAt can only be set when status is ${ToolItemStatus.BORROWED}`)
+    })
+
+    it (`should require borrowedBy when status is ${ToolItemStatus.BORROWED}`, () => {
+        expect(() =>
+        ToolItem.create({
+            id: "001-001-001",
+            toolId: "001",
+            serialNumber: "123456-7890",
+            status: ToolItemStatus.BORROWED,
+            borrowedAt: new Date()
+        }),
+    ).toThrow(`borrowedBy is required when status is ${ToolItemStatus.BORROWED}`)
+    })
+
+    it (`should require borrowedAt when status is ${ToolItemStatus.BORROWED}`, () => {
+        expect(() =>
+        ToolItem.create({
+            id: "001-001-001",
+            toolId: "001",
+            serialNumber: "123456-7890",
+            status: ToolItemStatus.BORROWED,
+            borrowedBy: '12345'
+        }),
+    ).toThrow(`borrowedAt is required when status is ${ToolItemStatus.BORROWED}`)
+    })
 })

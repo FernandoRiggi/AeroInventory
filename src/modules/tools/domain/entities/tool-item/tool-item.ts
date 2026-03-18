@@ -22,6 +22,18 @@ export class ToolItem {
         if (!serialNumber || !serialNumber.trim()) {
             throw new Error ('serialNumber is required')
         }
+        if (borrowedBy && status !== ToolItemStatus.BORROWED) {
+            throw new Error (`borrowedBy can only be set when status is ${ToolItemStatus.BORROWED}`)
+        }
+        if (borrowedAt && status !== ToolItemStatus.BORROWED) {
+            throw new Error (`borrowedAt can only be set when status is ${ToolItemStatus.BORROWED}`)
+        }
+        if (status === ToolItemStatus.BORROWED && (!borrowedBy || !borrowedBy.trim())) {
+            throw new Error (`borrowedBy is required when status is ${ToolItemStatus.BORROWED}`)
+        }
+        if (status === ToolItemStatus.BORROWED && !borrowedAt) {
+            throw new Error (`borrowedAt is required when status is ${ToolItemStatus.BORROWED}`)
+        }
     }
 
     static create(params: CreateToolItemParams) {
@@ -31,8 +43,8 @@ export class ToolItem {
             params.isActive || true,
             params.serialNumber,
             params.status || ToolItemStatus.AVAILABLE,
-            null,
-            null,
+            params.borrowedBy || null,
+            params.borrowedAt || null,
             new Date(),
             new Date(),
             null
